@@ -26,19 +26,27 @@ def recommend():
     
     if not user_prompt:
         return jsonify({"error": "Please provide a search prompt."}), 400
-
-    songs = load_songs()
     
+    # We no longer load from bollywood_db.json!
     ai_instructions = f"""
     You are a Bollywood Music Expert AI. 
     A user is looking for a song recommendation based on this request: "{user_prompt}"
     
-    Here is our current inventory of available songs in JSON format:
-    {json.dumps(songs)}
+    Think of ANY real Bollywood song from history that best fits their vibe, mood, tempo, or dance needs.
+    You must respond ONLY with a raw JSON object containing the song details. Do not add any conversational text or markdown code blocks.
     
-    Analyze the user's request and match it to ONE song from our library that best fits their vibe, mood, tempo, or dance needs.
-    You must respond ONLY with a raw JSON object matching the exact format of the chosen song from the inventory. Do not add any conversational text or markdown code blocks like ```json.
+    Use this exact JSON structure for your response:
+    {{
+        "id": 1,
+        "title": "Song Title",
+        "movie": "Movie Name",
+        "vibe": "e.g., Romantic, Energetic, Melancholic",
+        "tempo": "e.g., Fast, Medium, Slow",
+        "energy": "e.g., High, Medium, Low",
+        "dance_difficulty": "e.g., Easy, Medium, Hard"
+    }}
     """
+
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key={API_KEY}"
     headers = {'Content-Type': 'application/json'}
     payload = {
@@ -49,20 +57,15 @@ def recommend():
         response = requests.post(url, headers=headers, json=payload)
         response_data = response.json()
         
-        # This will print Google's exact response to your VS Code terminal
-        print("DEBUG - Raw Gemini Response:", json.dumps(response_data, indent=2))
-        
         ai_text = response_data['candidates'][0]['content']['parts'][0]['text'].strip()
         recommended_song = json.loads(ai_text)
         return jsonify(recommended_song)
         
     except Exception as e:
-        # Include the raw response in the browser error so we can see it easily
         return jsonify({
             "error": "AI could not process the request", 
-            "details": str(e),
-            "raw_response": response_data if 'response_data' in locals() else "No response received"
+            "details": str(e)
         }), 500
-
+    
 if __name__ == '__main__':
     app.run(debug=True)
