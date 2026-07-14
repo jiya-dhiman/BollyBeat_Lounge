@@ -1,7 +1,7 @@
 import os
 import json
 import requests
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
 
 # Load hidden variables from our .env file
@@ -18,7 +18,7 @@ def load_songs():
 
 @app.route('/')
 def home():
-    return "AI BollyBeat Recs is Live!"
+    return render_template('index.html')
 
 @app.route('/recommend', methods=['GET'])
 def recommend():

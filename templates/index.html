@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BollyBeat Recs</title>
+    
+    <style>
+        /* The entire background of the web page */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #121212; /* Spotify Deep Carbon Black */
+            color: #FFFFFF; /* Crisp White Text */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* The recommendation card container */
+        .container {
+            background-color: #181818; /* Slightly lighter card black */
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            width: 90%;
+            max-width: 480px;
+            border: 1px solid #282828; /* Subtle boundary line */
+        }
+
+        h1 {
+            color: #1DB954; /* Spotify Vibrant Green */
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        p {
+            color: #B3B3B3; /* Muted Grey text for descriptions */
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* The user text input field */
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px 20px;
+            margin: 24px 0;
+            border: 1px solid #3E3E3E;
+            background-color: #2A2A2A;
+            color: white;
+            border-radius: 4px; /* Slightly squared edges for a modern tech feel */
+            font-size: 16px;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        /* Highlights the input border green when you click into it */
+        input:focus {
+            border: 1px solid #1DB954;
+        }
+
+        /* The Action Button */
+        button {
+            background-color: #1DB954;
+            color: black;
+            border: none;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 50px; /* Fully rounded pill shape */
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #1ed760; /* Brighter green on hover */
+            transform: scale(1.03);
+        }
+
+        /* Where the AI recommendation prints out */
+        .result-box {
+            margin-top: 32px;
+            padding: 24px;
+            background-color: #282828;
+            border-radius: 8px;
+            display: none; /* Stays invisible until Javascript turns it on */
+            text-align: left;
+            border-left: 4px solid #1DB954; /* Green accent line on the side */
+        }
+
+        .result-box h3 {
+            margin: 0 0 12px 0;
+            font-size: 22px;
+        }
+
+        .meta-item {
+            margin: 6px 0;
+            font-size: 14px;
+            color: #B3B3B3;
+        }
+
+        .meta-item strong {
+            color: #FFF;
+        }
+
+        /* The Spotify Link Button */
+        .spotify-btn {
+            display: inline-block;
+            margin-top: 16px;
+            background-color: #1DB954;
+            color: black;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>BollyBeat Recs</h1>
+        <p>Type your mood, activity, or vibe, and let AI discover your perfect Bollywood soundtrack.</p>
+        
+        <input type="text" id="user-prompt" placeholder="e.g., Late night rainy drive vibes...">
+        <button onclick="getRecommendation()">Find Song</button>
+
+        <div id="result-box" class="result-box">
+            <h3 id="song-title">Song Title</h3>
+            <div class="meta-item"><strong>Movie:</strong> <span id="song-movie">-</span></div>
+            <div class="meta-item"><strong>Vibe:</strong> <span id="song-vibe">-</span></div>
+            <div class="meta-item"><strong>Tempo:</strong> <span id="song-tempo">-</span></div>
+            <div class="meta-item"><strong>Energy:</strong> <span id="song-energy">-</span></div>
+            
+            <a id="spotify-link" href="#" target="_blank" class="spotify-btn">Listen on Spotify 🎧</a>
+        </div>
+    </div>
+
+    <script>
+        async function getRecommendation() {
+            const promptInput = document.getElementById('user-prompt').value;
+            if (!promptInput) return alert("Please enter a vibe first!");
+
+            const button = document.querySelector('button');
+            button.innerText = "Searching...";
+            button.disabled = true;
+
+            try {
+                // Fetch request hits our Flask backend route: /recommend?prompt=...
+                const response = await fetch(`/recommend?prompt=${encodeURIComponent(promptInput)}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    alert("Error getting recommendation: " + data.details);
+                } else {
+                    // Populate our HTML containers with the AI data response
+                    document.getElementById('song-title').innerText = data.title;
+                    document.getElementById('song-movie').innerText = data.movie;
+                    document.getElementById('song-vibe').innerText = data.vibe;
+                    document.getElementById('song-tempo').innerText = data.tempo;
+                    document.getElementById('song-energy').innerText = data.energy;
+
+                    // Automatically generate a web search string for Spotify
+                    const searchUrl = `https://open.spotify.com/search/${encodeURIComponent(data.title + ' ' + data.movie)}`;
+                    document.getElementById('spotify-link').href = searchUrl;
+
+                    // Reveal the result box style property
+                    document.getElementById('result-box').style.display = 'block';
+                }
+            } catch (err) {
+                alert("Something went wrong connecting to the backend.");
+            } finally {
+                button.innerText = "Find Song";
+                button.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
