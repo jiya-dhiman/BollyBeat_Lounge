@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "title": "Chaiyya Chaiyya",
+        "movie": "Dil Se",
+        "tempo": "Fast",
+        "energy": "High",
+        "vibe": "Energetic",
+        "dance_difficulty": "Hard"
+    },
+    {
+        "id": 2,
+        "title": "Tum Hi Ho",
+        "movie": "Aashiqui 2",
+        "tempo": "Slow",
+        "energy": "Low",
+        "vibe": "Romantic",
+        "dance_difficulty": "Easy"
+    },
+    {
+        "id": 3,
+        "title": "Ghani Cool Chori",
+        "movie": "Rashmi Rocket",
+        "tempo": "Medium",
+        "energy": "High",
+        "vibe": "Festive",
+        "dance_difficulty": "Medium"
+    }
+]
