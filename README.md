@@ -12,6 +12,7 @@ BollyBeat_Lounge/
 │   ├── about.html      
 │   └── features.html   
 └── README.md
+```
 
 ## Features
 1. **AI Vibe Matching:** Describe any situation (e.g, "A late night drive in the rain"), and the AI finds the perfect Bollywood match with detailed reasong.
