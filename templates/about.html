@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .about-container { 
+        max-width: 800px; 
+        margin: 0 auto; 
+        padding: 60px 24px; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center; 
+    }
+    .about-content { 
+        background: var(--bg-card); 
+        padding: 40px; 
+        border-radius: 20px; 
+        border: 1px solid var(--border-soft); 
+        width: 100%;
+        line-height: 1.8;
+        color: var(--text-secondary);
+    }
+</style>
+
+<div class="about-container">
+    <h1 class="hero-title">About BollyBeat</h1>
+    <p class="hero-subtitle" style="margin-bottom: 40px;">Crafting the perfect soundtrack for your Bollywood moments.</p>
+
+    <div class="about-content">
+        <h3 style="color: var(--text-main); margin-bottom: 20px;">The Vision</h3>
+        <p>BollyBeat Lounge was born from a simple desire: to make the vast, colorful world of Bollywood music more accessible. We believe that music is deeply tied to memory and mood, and our mission is to help you find the right track for every moment, from late-night drives to festive celebrations.</p>
+        
+        <h3 style="color: var(--text-main); margin: 30px 0 20px 0;">Our Technology</h3>
+        <p>By leveraging advanced semantic AI models, we look beyond simple tags. Our engine understands the "vibe" of your request, connecting you with songs that match the energy, tempo, and emotional depth you're looking for.</p>
+    </div>
+</div>
+{% endblock %}

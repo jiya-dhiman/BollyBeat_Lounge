@@ -32,6 +32,7 @@ def get_youtube_id(song_title, movie_name):
     Programmatically searches YouTube for the song and extracts 
     the very first video ID from the search results page.
     """
+    search_query = f"{song_title} {movie_name} official audio"
     try:
         search_query = f"{song_title} {movie_name} official audio"
         encoded_query = urllib.parse.urlencode({"search_query": search_query})
@@ -83,23 +84,14 @@ def recommend():
     """
 
     try:
-        # 1. Attempt to call the flagship model first
-        try:
-            print("Attempting generation with gemini-3.5-flash...")
-            response = client.models.generate_content(
-                model='gemini-3.5-flash',
-                contents=ai_instructions
-            )
-        except Exception as api_err:
-            # 2. If the main server is overloaded (503), immediately fall back to the lite tier
-            if "503" in str(api_err) or "UNAVAILABLE" in str(api_err).upper():
-                print("Gemini 3.5 Flash is busy. Switching to fallback: gemini-3.1-flash-lite...")
-                response = client.models.generate_content(
-                    model='gemini-3.1-flash-lite',
-                    contents=ai_instructions
-                )
-            else:
-                raise api_err # Raise any non-503 errors normally
+        print("Generating recommendation with high-speed gemini-3.1-flash-lite...")
+        response = client.models.generate_content(
+            model='gemini-3.1-flash-lite',
+            contents=ai_instructions
+        )
+
+        # Cleanup response string and parse JSON...
+        # (The rest of your logic remains exactly the same)
 
         # Cleanup response string
         clean_text = response.text.strip()
@@ -121,6 +113,15 @@ def recommend():
 
     except Exception as e:
         return jsonify({"error": "Failed generating recommendation", "details": str(e)}), 500
+
+@app.route('/features')
+def features():
+    return render_template('features.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

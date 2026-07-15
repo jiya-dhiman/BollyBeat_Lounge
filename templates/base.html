@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BollyBeat Lounge | AI Music Discover Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-global: #faf8f5; --bg-card: #ffffff; --border-soft: #f1ede4; --brand-gold: #c5a173; --text-main: #2b231d; --text-secondary: #5c5043; --text-muted: #9c8e7f; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-global); color: var(--text-secondary); min-height: 100vh; }
+        .navbar { background-color: rgba(250, 248, 245, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-soft); padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-logo { font-weight: 800; font-size: 20px; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .nav-logo span { color: var(--brand-gold); }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-link { text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 600; }
+        .nav-link:hover { color: var(--brand-gold); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="nav-logo">BollyBeat <span>Lounge</span></a>
+        <div class="nav-links">
+            <a href="/" class="nav-link">Discover</a>
+            <a href="/features" class="nav-link">Features</a>
+            <a href="/about" class="nav-link">About</a>
+        </div>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+</html>

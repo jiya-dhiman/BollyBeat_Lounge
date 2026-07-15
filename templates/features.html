@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    /* Centering the container and the text */
+    .features-container { 
+        max-width: 800px; 
+        margin: 0 auto; 
+        padding: 60px 24px; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center; 
+    }
+    .feature-card { 
+        background: var(--bg-card); 
+        padding: 30px; 
+        border-radius: 20px; 
+        border: 1px solid var(--border-soft); 
+        margin-bottom: 20px; 
+        width: 100%; 
+        max-width: 600px;
+        text-align: left;
+    }
+</style>
+
+<div class="features-container">
+    <h1 class="hero-title">How BollyBeat Works</h1>
+    <p class="hero-subtitle" style="margin-bottom: 60px;">Our AI understands the emotional landscape of music to find the perfect track for your mood.</p>
+
+    <div class="feature-card">
+        <h3 style="color: var(--text-main); margin-bottom: 10px;">Semantic Intent Mapping</h3>
+        <p>Instead of searching for song titles, our engine maps your description to high-dimensional vectors, identifying the mood, tempo, and lyrical themes that align with your specific memory.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3 style="color: var(--text-main); margin-bottom: 10px;">Dynamic Orchestration</h3>
+        <p>Once a song is selected, our system performs a real-time background search to verify the highest quality official audio source, ensuring you get the authentic track every time.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3 style="color: var(--text-main); margin-bottom: 10px;">Adaptive Vibe Profiles</h3>
+        <p>We analyze the underlying audio characteristics—energy level, danceability, and rhythm signature—to provide a full analytical profile of why a particular song fits your requested vibe.</p>
+    </div>
+</div>
+{% endblock %}
