@@ -4,27 +4,19 @@ import urllib.parse
 import re
 import json
 from flask import Flask, render_template, request, jsonify
-# 1. UPDATED IMPORT PATTERN FOR THE NEW SDK
 from google import genai
 from dotenv import load_dotenv
 
-# Bulletproof ENV Loading
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
 
 app = Flask(__name__)
 
-# Safe API Key Check
+# Updated API Key Check
 api_key = os.getenv("GEMINI_API_KEY")
 if not api_key:
-    print("\n" + "="*60)
-    print("CRITICAL ERROR: 'GEMINI_API_KEY' was not found!")
-    print(f"Looked in: {os.path.join(basedir, '.env')}")
-    print("="*60 + "\n")
-    raise ValueError("Missing GEMINI_API_KEY environment variable.")
+    raise ValueError("GEMINI_API_KEY is not set.")
 
-# 2. NEW COMPLIANT INITIALIZATION PATTERN
-# The client automatically picks up the API key or you can pass it directly
 client = genai.Client(api_key=api_key)
 
 def get_youtube_id(song_title, movie_name):
@@ -124,4 +116,4 @@ def about():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
